@@ -1,0 +1,10 @@
+name: ci by raj
+on:
+ push:
+job:
+  build:
+  -name: checkout code
+   step: action/checkout@v4
+
+   -name: docker setup
+   step: action/setup-buildx-action@v4
