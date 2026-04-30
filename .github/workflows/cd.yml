@@ -18,7 +18,12 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            cd ~/Three-tier-application
+            cd /home/ubuntu
+
+            if [ ! -d "Three-tier-application" ]; then
+              git clone https://github.com/rajkushwaha7584/Three-tier-application.git
+            fi
+
+            cd Three-tier-application
             git pull origin main
-            docker compose pull
-            docker compose up -d
+            docker compose up -d --build
