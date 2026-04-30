@@ -19,7 +19,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /home/ubuntu
-
             if [ ! -d "Three-tier-application" ]; then
               git clone https://github.com/rajkushwaha7584/Three-tier-application.git
             fi
