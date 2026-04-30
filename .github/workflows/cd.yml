@@ -1,15 +1,19 @@
 name: cd by raj
+
 on:
   workflow_run:
     workflows: ["ci by raj"]
     types:
       - completed
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
     steps:
       - uses: actions/checkout@v4
+
       - name: Execute remote SSH commands
         uses: appleboy/ssh-action@v1
         with:
@@ -18,8 +22,11 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            git clone https://github.com/rajkushwaha7584/Three-tier-application.git
             cd /home/ubuntu
+            if [ ! -d "Three-tier-application/.git" ]; then
+              git clone https://github.com/rajkushwaha7584/Three-tier-application.git
+            fi
             cd Three-tier-application
             git pull origin main
+            docker compose down -v
             docker compose up -d --build
